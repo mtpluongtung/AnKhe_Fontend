@@ -1,0 +1,41 @@
+.admin-sidebar {
+    width: 250px;
+    position: sticky;
+    top: 0;
+    transition: width 0.3s;
+}
+
+.sidebar-nav .nav-link {
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.sidebar-nav .nav-link:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav .nav-link.active {
+    opacity: 1;
+    background-color: var(--tgdd-yellow);
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.admin-main {
+    transition: margin 0.3s;
+}
+
+.admin-wrapper {
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 60px;
+        overflow: hidden;
+    }
+    .admin-sidebar h5, .admin-sidebar .nav-link span {
+        display: none;
+    }
+}

@@ -1,0 +1,55 @@
+<div class="admin-wrapper d-flex">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar bg-dark text-white px-0 py-4 min-vh-100">
+    <div class="px-4 mb-4 d-flex align-items-center">
+      <i class="bi bi-shield-check fs-3 text-warning me-2"></i>
+      <h5 class="mb-0 fw-bold">Admin Panel</h5>
+    </div>
+
+    <nav class="nav flex-column sidebar-nav mt-3">
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/products" routerLinkActive="active">
+        <i class="bi bi-laptop me-2"></i> Sản phẩm
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/news" routerLinkActive="active">
+        <i class="bi bi-newspaper me-2"></i> Tin tức
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/orders" routerLinkActive="active">
+        <i class="bi bi-bag-check me-2"></i> Đơn hàng
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/categories" routerLinkActive="active">
+        <i class="bi bi-tags me-2"></i> Danh mục
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" routerLink="/admin/banners" routerLinkActive="active">
+        <i class="bi bi-image me-2"></i> Banner & Intro
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light mt-5 border-top border-secondary pt-4" routerLink="/">
+        <i class="bi bi-house me-2"></i> Xem Website
+      </a>
+      <a class="nav-link py-3 px-4 text-white hover-light" style="cursor: pointer;" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="admin-main flex-grow-1 bg-light min-vh-100">
+    <header class="bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center sticky-top">
+      <h4 class="mb-0 text-dark fw-medium">Quản lý hệ thống</h4>
+      <div class="user-info d-flex align-items-center">
+        <span class="text-muted small me-3">Xin chào, <b>{{authService.currentUserValue.username}}</b></span>
+        <div class="avatar bg-warning rounded-circle d-flex align-items-center justify-content-center fw-bold text-dark" style="width: 35px; height: 35px;">
+          {{authService.currentUserValue.username?.charAt(0).toUpperCase()}}
+        </div>
+      </div>
+    </header>
+
+    <div class="p-4 p-md-5">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

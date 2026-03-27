@@ -1,0 +1,107 @@
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-bold">Quản lý Banner</h5>
+    <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" (click)="openAddModal()">
+      <i class="bi bi-plus-lg me-2"></i>Thêm Banner
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="ps-4">Ảnh</th>
+            <th>Tên Banner</th>
+            <th>Vị trí</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let banner of banners">
+            <td class="ps-4">
+              <img [src]="banner.imageUrl" [alt]="banner.name" class="rounded-3 shadow-sm" style="width: 120px; height: 60px; object-fit: cover;">
+            </td>
+            <td>
+              <div class="fw-bold">{{banner.name}}</div>
+              <small class="text-muted text-truncate d-inline-block" style="max-width: 200px;">{{banner.linkUrl}}</small>
+            </td>
+            <td><span class="badge bg-light text-dark border">{{banner.position}}</span></td>
+            <td>
+              <span class="badge" [ngClass]="banner.status === 'Active' ? 'bg-success' : 'bg-secondary'">
+                {{banner.status}}
+              </span>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2 rounded-pill px-3" (click)="openEditModal(banner)">
+                <i class="bi bi-pencil-square me-1"></i> Sửa
+              </button>
+              <button class="btn btn-sm btn-outline-danger rounded-pill px-3" (click)="deleteBanner(banner.id)">
+                <i class="bi bi-trash me-1"></i> Xóa
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="banners.length === 0 && !loading">
+            <td colspan="5" class="text-center py-5 text-muted">Chưa có banner nào. Hãy thêm banner đầu tiên!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Banner Modal -->
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 py-3">
+        <h5 class="modal-title fw-bold">{{isEditMode ? 'Cập nhật Banner' : 'Thêm Banner mới'}}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body p-4 pt-0">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold small text-uppercase">Tên Banner</label>
+            <input type="text" class="form-control" [(ngModel)]="editingBanner.name" placeholder="Ví dụ: Siêu sale máy tính">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small text-uppercase">Vị trí</label>
+            <select class="form-select" [(ngModel)]="editingBanner.position">
+              <option value="Home">Trang chủ</option>
+              <option value="Product">Trang sản phẩm</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold small text-uppercase">Đường dẫn ảnh (URL)</label>
+            <input type="text" class="form-control" [(ngModel)]="editingBanner.imageUrl" placeholder="https://example.com/image.jpg">
+            <div class="mt-2 text-center" *ngIf="editingBanner.imageUrl">
+              <img [src]="editingBanner.imageUrl" class="img-thumbnail rounded-3" style="max-height: 150px;">
+            </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold small text-uppercase">Đường dẫn khi nhấn (Link URL)</label>
+            <input type="text" class="form-control" [(ngModel)]="editingBanner.linkUrl" placeholder="/laptop">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small text-uppercase">Thông tin mô tả (Tùy chọn)</label>
+            <textarea class="form-control" [(ngModel)]="editingBanner.info" rows="2"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold small text-uppercase">Trạng thái</label>
+            <select class="form-select" [(ngModel)]="editingBanner.status">
+              <option value="Active">Hoạt động</option>
+              <option value="Inactive">Tạm ngưng</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0 p-4 pt-0">
+        <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Thoát</button>
+        <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" (click)="saveBanner()">
+          {{isEditMode ? 'Lưu thay đổi' : 'Thêm mới'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>

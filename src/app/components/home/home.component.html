@@ -1,0 +1,100 @@
+<!-- Banner Slider -->
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="banner-slider rounded-4 overflow-hidden shadow-sm position-relative">
+      <!-- Dynamic Banners -->
+      <div *ngIf="banners.length > 0" class="banner-track">
+        <div *ngFor="let banner of banners; let i = index" 
+             class="banner-item" 
+             [class.active]="i === currentBannerIndex">
+          <a [routerLink]="banner.linkUrl" class="d-block position-relative">
+            <img [src]="banner.imageUrl" [alt]="banner.name" class="w-100 banner-img">
+            <div class="banner-overlay p-5 d-flex align-items-center">
+               <div class="banner-content text-white" *ngIf="banner.info">
+                  <h2 class="display-5 fw-bold mb-2">{{banner.name}}</h2>
+                  <p class="lead mb-0 text-white-50">{{banner.info}}</p>
+               </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Fallback static banner if no active banners found -->
+      <div *ngIf="banners.length === 0" class="bg-primary text-white p-5 text-center" style="height: 350px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #ffd400 0%, #ffbb00 100%) !important;">
+        <div class="banner-text text-dark">
+          <h1 class="display-4 fw-bold text-uppercase">An Khê Computer</h1>
+          <p class="lead">Chào mừng bạn đến với hệ thống máy tính chuyên nghiệp nhất tại An Khê.</p>
+          <button class="btn btn-dark btn-lg mt-3" routerLink="/products">Khám phá ngay</button>
+        </div>
+      </div>
+
+      <!-- Slider Controls (Only if > 1 banner) -->
+      <ng-container *ngIf="banners.length > 1">
+        <button class="slider-btn prev" (click)="prevBanner()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="slider-btn next" (click)="nextBanner()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        <div class="slider-dots">
+          <span *ngFor="let dot of banners; let d = index" 
+                class="dot" 
+                [class.active]="d === currentBannerIndex"
+                (click)="currentBannerIndex = d"></span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fs-4 fw-bold text-uppercase border-start border-4 border-warning ps-3">Sản phẩm nổi bật</h2>
+  <a routerLink="/products" class="text-tgdd-blue text-decoration-none">Xem tất cả <i class="bi bi-chevron-right"></i></a>
+</div>
+
+<div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5">
+  <div class="col" *ngFor="let product of hotProducts">
+    <div class="card h-100 product-card border-0">
+      <div class="installment-label">Trả góp 0%</div>
+      <div class="card-img-container p-3">
+        <img [src]="product.imageUrl || 'assets/images/default-product.png'" class="card-img-top" [alt]="product.name">
+      </div>
+      <div class="card-body pt-0">
+        <h5 class="product-title mb-2">{{ product.name }}</h5>
+        
+        <div class="price-box mb-2">
+          <span class="curr-price">{{ product.price | number:'1.0-2' }}₫</span>
+          <span class="old-price ms-2">{{ product.price * 1.1 | number:'1.0-2' }}₫</span>
+        </div>
+
+        <div class="rating-box mb-2">
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <small class="text-muted">(120)</small>
+        </div>
+
+        <div class="stock-info mb-3">
+          <span *ngIf="product.stockQuantity > 5" class="badge bg-light text-success border border-success-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-check2-circle me-1"></i>Còn lại: {{ product.stockQuantity }}
+          </span>
+          <span *ngIf="product.stockQuantity > 0 && product.stockQuantity <= 5" class="badge bg-light text-warning border border-warning-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-exclamation-circle me-1"></i>Sắp hết: {{ product.stockQuantity }}
+          </span>
+          <span *ngIf="product.stockQuantity <= 0" class="badge bg-light text-danger border border-danger-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-x-circle me-1"></i>Hết hàng
+          </span>
+        </div>
+
+        <button class="btn btn-outline-primary btn-sm w-100 rounded-pill" (click)="addToCart(product)">Sắm ngay</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hotProducts.length === 0" class="text-center text-muted my-5 p-5 bg-white rounded shadow-sm">
+  <i class="bi bi-emoji-smile fs-1 d-block mb-3"></i>
+  <p>Đang cập nhật các sản phẩm hot nhất cho bạn...</p>
+</div>

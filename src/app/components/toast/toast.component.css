@@ -1,0 +1,48 @@
+.toast-container {
+  padding-top: 5rem !important; /* Tránh bị che bởi Navbar */
+}
+
+.toast {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.bg-success {
+  background-color: #28a745 !important;
+}
+
+.toast.bg-danger {
+  background-color: #d12c2c !important;
+}
+
+.toast.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.toast.bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.toast-header {
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.95);
+  font-size: 0.75rem;
+}
+
+.toast-body {
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}

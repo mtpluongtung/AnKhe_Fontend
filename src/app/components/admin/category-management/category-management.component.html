@@ -1,0 +1,63 @@
+<div class="card border-0 shadow-sm rounded-4">
+  <!-- Debug indicator -->
+  <div style="display:none">v2.1 - Connected</div>
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-bold">Quản lý danh mục</h5>
+    <button (click)="openAddModal()" class="btn btn-warning fw-bold">
+      <i class="bi bi-plus-lg me-1"></i> Thêm danh mục
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 text-center">
+        <thead class="bg-light">
+          <tr>
+            <th style="width: 80px;">ID</th>
+            <th>Tên danh mục</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cat of categories">
+            <td>{{cat.id}}</td>
+            <td class="fw-bold">{{cat.name}}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2 px-3 rounded-pill" (click)="openEditModal(cat)">
+                <i class="bi bi-pencil-square me-1"></i> Sửa
+              </button>
+              <button class="btn btn-sm btn-outline-danger px-3 rounded-pill" (click)="deleteCategory(cat.id)">
+                <i class="bi bi-trash me-1"></i> Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dialog -->
+<div class="modal fade show d-block" *ngIf="showModal" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+      <div class="modal-header bg-warning py-3">
+        <h5 class="modal-title fw-bold text-dark">{{ isEditMode ? 'Sửa danh mục' : 'Thêm danh mục mới' }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form #catForm="ngForm" (ngSubmit)="saveCategory()">
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase">Tên danh mục</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="currentCategory.name" required placeholder="Laptop, Linh kiện, Phụ kiện...">
+          </div>
+          <div class="modal-footer border-0 px-0 pb-0 pt-3">
+            <button type="button" class="btn btn-outline-secondary px-4 fw-bold" (click)="closeModal()">Hủy</button>
+            <button type="submit" class="btn btn-warning px-4 fw-bold shadow-sm">
+                {{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

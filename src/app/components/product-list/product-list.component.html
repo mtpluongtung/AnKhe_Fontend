@@ -1,0 +1,46 @@
+<div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5">
+  <div class="col" *ngFor="let product of products">
+    <div class="card h-100 product-card border-0">
+      <div class="installment-label" *ngIf="product.isHot">Trả góp 0%</div>
+      <div class="card-img-container p-3">
+        <img [src]="product.imageUrl || 'assets/images/default-product.png'" class="card-img-top" [alt]="product.name">
+      </div>
+      <div class="card-body pt-0">
+        <h5 class="product-title mb-2">{{ product.name }}</h5>
+        
+        <div class="price-box mb-2">
+          <span class="curr-price">{{ product.price | number:'1.0-2' }}₫</span>
+          <span class="old-price ms-2" *ngIf="product.isHot">{{ product.price * 1.1 | number:'1.0-0' }}₫</span>
+        </div>
+
+        <div class="rating-box mb-2">
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <i class="bi bi-star-fill text-warning me-1 small"></i>
+          <small class="text-muted">(25)</small>
+        </div>
+
+        <div class="stock-info mb-3">
+          <span *ngIf="product.stockQuantity > 5" class="badge bg-light text-success border border-success-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-check2-circle me-1"></i>Còn lại: {{ product.stockQuantity }}
+          </span>
+          <span *ngIf="product.stockQuantity > 0 && product.stockQuantity <= 5" class="badge bg-light text-warning border border-warning-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-exclamation-circle me-1"></i>Sắp hết: {{ product.stockQuantity }}
+          </span>
+          <span *ngIf="product.stockQuantity <= 0" class="badge bg-light text-danger border border-danger-subtle py-1 px-2 fw-normal">
+            <i class="bi bi-x-circle me-1"></i>Hết hàng
+          </span>
+        </div>
+
+        <button class="btn btn-outline-primary btn-sm w-100 rounded-pill" (click)="addToCart(product)">Chọn mua</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="products.length === 0" class="text-center text-muted my-5 bg-white p-5 rounded sombra">
+  <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+  <p>Hiện tại chưa có sản phẩm nào.</p>
+</div>

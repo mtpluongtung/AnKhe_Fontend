@@ -1,0 +1,92 @@
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-bold">Quản lý đơn hàng</h5>
+    <button class="btn btn-sm btn-outline-secondary" (click)="loadOrders()">
+      <i class="bi bi-arrow-clockwise"></i> Làm mới
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="ps-4">Mã ĐH</th>
+            <th>Khách hàng</th>
+            <th>Sản phẩm</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td class="ps-4 fw-bold">#{{order.id}}</td>
+            <td>
+              <div class="fw-medium">{{order.receiverName}}</div>
+              <div class="text-muted small">{{order.receiverPhoneNumber}}</div>
+              <div class="text-muted small text-truncate" style="max-width: 150px;">{{order.shippingAddress}}</div>
+            </td>
+            <td>
+              <div *ngFor="let detail of order.orderDetails" class="small">
+                {{detail.product?.name}} (x{{detail.quantity}})
+              </div>
+            </td>
+            <td class="fw-bold text-danger">{{order.totalAmount | number:'1.0-2'}}₫</td>
+            <td>
+              <span [class]="getStatusClass(order.status)">{{order.status}}</span>
+              <div *ngIf="order.status === 'Cancelled' && order.cancelReason" class="text-muted small mt-1 fst-italic">
+                Lý do: {{order.cancelReason}}
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-sm btn-success px-3" *ngIf="order.status === 'Pending'" (click)="updateStatus(order, 'Completed')" title="Xác nhận đặt hàng">
+                  <i class="bi bi-check-circle me-1"></i> Xác nhận đặt hàng
+                </button>
+                <button class="btn btn-sm btn-danger px-3" *ngIf="order.status === 'Pending'" (click)="updateStatus(order, 'Cancelled')" title="Hủy đơn hàng">
+                  <i class="bi bi-x-circle me-1"></i> Hủy
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="orders.length === 0 && !loading">
+            <td colspan="6" class="text-center py-5 text-muted">Chưa có đơn hàng nào trong hệ thống.</td>
+          </tr>
+          <tr *ngIf="loading">
+            <td colspan="6" class="text-center py-5">
+              <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal fade" [class.show]="showCancelModal" [style.display]="showCancelModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 py-3">
+        <h5 class="modal-title fw-bold">Hủy đơn hàng #{{selectedOrder?.id}}</h5>
+        <button type="button" class="btn-close" (click)="closeCancelModal()"></button>
+      </div>
+      <div class="modal-body p-4 pt-0">
+        <p class="text-muted mb-3">Vui lòng nhập lý do hủy đơn hàng này. Lý do sẽ được hiển thị cho khách hàng.</p>
+        <div class="mb-3">
+          <label class="form-label fw-bold small text-uppercase">Lý do hủy</label>
+          <textarea class="form-control" [(ngModel)]="cancelReason" rows="3" placeholder="Nhập lý do hủy..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer border-0 p-4 pt-0">
+        <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeCancelModal()">Thoát</button>
+        <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm" (click)="confirmCancel()">
+          Xác nhận hủy
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showCancelModal"></div>

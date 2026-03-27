@@ -1,0 +1,62 @@
+<div class="dashboard-stats py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-0 fw-bold">Thống kê doanh thu</h5>
+            <small class="text-muted">Dữ liệu từ các đơn hàng đã xác nhận</small>
+          </div>
+          <div class="d-flex gap-2">
+            <select class="form-select form-select-sm rounded-pill px-3" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+              <option value="daily">Theo ngày (30 ngày gần nhất)</option>
+              <option value="monthly">Theo tháng</option>
+              <option value="yearly">Theo năm</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body p-4">
+          <div style="height: 350px;">
+             <canvas #revenueChart></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0 fw-bold">Sản phẩm đã bán (Đã xác nhận)</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th class="ps-4">Sản phẩm</th>
+                  <th class="text-center">Số lượng</th>
+                  <th class="text-end pe-4">Doanh thu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of confirmedProducts">
+                  <td class="ps-4">
+                    <div class="fw-medium">{{item.productName}}</div>
+                    <small class="text-muted">ID: #{{item.productId}}</small>
+                  </td>
+                  <td class="text-center fw-bold text-primary">{{item.totalQuantity}}</td>
+                  <td class="text-end pe-4 fw-bold text-danger">{{item.totalRevenue | number:'1.0-2'}}₫</td>
+                </tr>
+                <tr *ngIf="confirmedProducts.length === 0">
+                   <td colspan="3" class="text-center py-5 text-muted">Chưa có sản phẩm nào được xác nhận đặt hàng.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

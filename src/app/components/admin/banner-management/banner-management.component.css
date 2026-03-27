@@ -1,0 +1,18 @@
+.card {
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+.modal {
+  background: rgba(0,0,0,0.5);
+}
+
+.img-thumbnail {
+  max-width: 100%;
+}

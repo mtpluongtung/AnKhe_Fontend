@@ -1,0 +1,35 @@
+.news-article {
+  line-height: 1.8;
+}
+
+.news-content ::ng-deep p {
+  margin-bottom: 1.5rem;
+}
+
+.news-content ::ng-deep img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.news-content ::ng-deep h2, .news-content ::ng-deep h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.text-tgdd-blue {
+  color: #288ad6;
+}
+
+.text-tgdd-blue:hover {
+  color: #1a6db1;
+}

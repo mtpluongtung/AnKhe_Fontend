@@ -1,0 +1,25 @@
+.bg-tgdd {
+    background-color: var(--tgdd-yellow);
+}
+
+.search-box .form-control:focus {
+    box-shadow: none;
+}
+
+.header-icons .nav-link {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.header-icons .nav-link:hover {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.navbar .nav-link {
+    font-size: 14px;
+}
+
+.navbar .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+}

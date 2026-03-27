@@ -1,0 +1,45 @@
+<div class="py-5">
+  <h2 class="fw-bold mb-4 border-start border-4 border-warning ps-3">Lịch sử đơn hàng</h2>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && orders.length === 0" class="card border-0 shadow-sm p-5 text-center rounded-4">
+    <i class="bi bi-clock-history fs-1 text-muted mb-3"></i>
+    <p class="text-muted">Bạn chưa có đơn hàng nào.</p>
+    <a routerLink="/products" class="btn btn-warning px-4 py-2 mt-2 fw-bold">Mua sắm ngay</a>
+  </div>
+
+  <div class="row g-4" *ngIf="orders.length > 0">
+    <div class="col-md-12" *ngFor="let order of orders">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted small me-3">Mã đơn hàng: #{{order.id}}</span>
+            <span class="text-muted small">Ngày đặt: {{order.orderDate | date:'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+          <span [class]="getStatusClass(order.status)">{{order.status}}</span>
+        </div>
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+               <div *ngFor="let detail of order.orderDetails" class="d-flex align-items-center mb-3">
+                  <div class="flex-grow-1">
+                    <div class="fw-bold">{{detail.product?.name || 'Sản phẩm ' + detail.productId}}</div>
+                    <div class="text-muted small">Số lượng: {{detail.quantity}} x {{detail.unitPrice | number:'1.0-2'}}₫</div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4 text-end">
+              <div class="text-muted small">Tổng tiền thanh toán</div>
+              <div class="fs-4 fw-bold text-danger">{{order.totalAmount | number:'1.0-2'}}₫</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

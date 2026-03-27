@@ -1,0 +1,57 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-3 fw-bold text-uppercase border-start border-4 border-warning ps-3 mb-0">Tin công nghệ</h2>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none text-muted">Trang chủ</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tin tức</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="row g-4" *ngIf="!loading">
+    <div class="col-md-4" *ngFor="let item of newsList">
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden news-card">
+        <div class="position-relative">
+          <img [src]="item.imageUrl || 'assets/images/default-news.png'" class="card-img-top news-img" [alt]="item.title">
+          <span class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-1 m-3 rounded-pill small fw-bold" *ngIf="item.isHot">
+            Hot
+          </span>
+        </div>
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center text-muted small mb-2">
+            <i class="bi bi-calendar3 me-2"></i> {{ item.createdDate | date:'dd/MM/yyyy' }}
+            <span class="mx-2">|</span>
+            <i class="bi bi-eye me-2"></i> {{ item.viewsCount }} lượt xem
+          </div>
+          <h5 class="card-title fw-bold mb-3 line-clamp-2 highlight-hover" [routerLink]="['/tin-tuc', item.id]">{{ item.title }}</h5>
+          <p class="card-text text-muted small mb-4 line-clamp-3">{{ item.description }}</p>
+          <a [routerLink]="['/tin-tuc', item.id]" class="btn btn-outline-warning rounded-pill px-4 btn-sm fw-bold">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="col-12 text-center py-5" *ngIf="newsList.length === 0">
+      <div class="bg-white p-5 rounded-4 shadow-sm">
+        <i class="bi bi-newspaper fs-1 text-muted d-block mb-3"></i>
+        <h4 class="text-muted">Chưa có tin tức nào được cập nhật</h4>
+        <p class="text-muted mb-0">Vui lòng quay lại sau ít phút.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Skeletons -->
+  <div class="row g-4" *ngIf="loading">
+    <div class="col-md-4" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden shadow-loading">
+        <div class="skeleton-img"></div>
+        <div class="card-body p-4">
+          <div class="skeleton-text-sm mb-2"></div>
+          <div class="skeleton-title mb-3"></div>
+          <div class="skeleton-text-lg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

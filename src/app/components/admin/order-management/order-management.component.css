@@ -1,0 +1,20 @@
+.table th {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+  border-radius: 50rem;
+}
+
+.btn-group .btn {
+  border-radius: 0.5rem !important;
+}
+
+.text-truncate {
+  display: block;
+}

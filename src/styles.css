@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --tgdd-yellow: #ffd400;
+    --tgdd-blue: #288ad6;
+    --tgdd-red: #d0021c;
+    --bg-gray: #f1f1f1;
+}
+
+body {
+    background-color: var(--bg-gray);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #333;
+}
+
+.btn-tgdd {
+    background-color: var(--tgdd-yellow);
+    color: #000;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-tgdd:hover {
+    background-color: #e6bf00;
+}
+
+.container {
+    max-width: 1200px !important;
+}
+
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #333;
+}
+
+.curr-price {
+    color: #d0021c;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.old-price {
+    color: #666;
+    text-decoration: line-through;
+    font-size: 13px;
+}
+
+.installment-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.card-img-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img-container img {
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.rating-box {
+    font-size: 12px;
+}
+
+.bg-tgdd {
+    background-color: var(--tgdd-yellow);
+}
+
+.text-tgdd-blue {
+    color: var(--tgdd-blue);
+}
+
+.text-dark {
+    color: #333 !important;
+}

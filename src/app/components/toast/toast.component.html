@@ -1,0 +1,19 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999">
+  <div *ngFor="let toast of toasts$ | async" 
+       class="toast show border-0 rounded-4 shadow-lg mb-2" 
+       [ngClass]="'bg-' + toast.type" 
+       role="alert" 
+       aria-live="assertive" 
+       aria-atomic="true">
+    
+    <div class="toast-header border-0 rounded-top-4" [ngClass]="'text-' + toast.type">
+      <i class="bi me-2 fs-5" [ngClass]="getIcon(toast.type)"></i>
+      <strong class="me-auto text-uppercase small pt-1">{{ toast.title || 'Thông báo' }}</strong>
+      <button type="button" class="btn-close ms-2" (click)="remove(toast)"></button>
+    </div>
+    
+    <div class="toast-body text-white py-3">
+      {{ toast.message }}
+    </div>
+  </div>
+</div>

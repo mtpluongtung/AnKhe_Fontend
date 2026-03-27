@@ -1,0 +1,113 @@
+<div class="row py-5">
+  <div class="col-md-8">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+      <div class="card-header bg-white py-3">
+        <h4 class="mb-0 fw-bold">Giỏ hàng của bạn ({{cartItems.length}} sản phẩm)</h4>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-4">Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng cộng</th>
+                <th class="text-center">Xóa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of cartItems">
+                <td class="ps-4 py-3">
+                  <div class="d-flex align-items-center">
+                    <img [src]="item.imageUrl || 'assets/images/default-product.png'" width="60" class="rounded me-3">
+                    <span class="fw-medium">{{item.productName}}</span>
+                  </div>
+                </td>
+                <td>{{item.price | number:'1.0-2'}}₫</td>
+                <td style="width: 120px;">
+                  <input type="number" class="form-control form-control-sm" [value]="item.quantity" #qty (change)="updateQuantity(item.productId, qty.value)">
+                </td>
+                <td class="fw-bold text-danger">{{item.price * item.quantity | number:'1.0-2'}}₫</td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-outline-danger border-0" (click)="removeItem(item.productId)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="cartItems.length === 0">
+                <td colspan="5" class="text-center py-5 text-muted">
+                  <i class="bi bi-cart-x fs-1 d-block mb-3"></i>
+                  Giỏ hàng của bạn đang trống. <a routerLink="/products" class="text-tgdd-blue text-decoration-none">Tiếp tục mua sắm</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden sticky-top" style="top: 20px;">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">Tóm tắt đơn hàng</h5>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Tạm tính:</span>
+          <span>{{totalAmount | number:'1.0-2'}}₫</span>
+        </div>
+        <div class="d-flex justify-content-between mb-4">
+          <span>Phí vận chuyển:</span>
+          <span class="text-success">Miễn phí</span>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between mb-4 mt-2">
+          <span class="fw-bold fs-5">Tổng tiền:</span>
+          <span class="fw-bold fs-5 text-danger">{{totalAmount | number:'1.0-2'}}₫</span>
+        </div>
+        <div class="d-grid gap-3">
+          <button (click)="openOrderModal()" [disabled]="cartItems.length === 0" class="btn btn-warning btn-lg fw-bold py-3 text-uppercase">
+            Đặt hàng
+          </button>
+          <a routerLink="/products" class="btn btn-outline-dark btn-lg py-3 small text-uppercase fw-bold">
+            Tiếp tục mua hàng
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Information Modal -->
+<div class="modal fade" [class.show]="showOrderModal" [style.display]="showOrderModal ? 'block' : 'none'" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-warning border-0 py-3">
+        <h5 class="modal-title fw-bold text-uppercase"><i class="bi bi-truck me-2"></i>Thông tin nhận hàng</h5>
+        <button type="button" class="btn-close" (click)="closeOrderModal()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form #orderForm="ngForm">
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase">Tên người nhận</label>
+            <input type="text" class="form-control rounded-pill px-3" name="receiverName" [(ngModel)]="orderInfo.receiverName" required placeholder="Nhập họ tên người nhận">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase">Số điện thoại</label>
+            <input type="tel" class="form-control rounded-pill px-3" name="receiverPhoneNumber" [(ngModel)]="orderInfo.receiverPhoneNumber" required placeholder="Nhập số điện thoại">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase">Địa chỉ nhận hàng</label>
+            <textarea class="form-control rounded-3 px-3" name="shippingAddress" [(ngModel)]="orderInfo.shippingAddress" required rows="3" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0 p-4 pt-0">
+        <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeOrderModal()">Hủy</button>
+        <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" [disabled]="!orderForm.form.valid" (click)="confirmOrder()">
+          Xác nhận đặt hàng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showOrderModal"></div>

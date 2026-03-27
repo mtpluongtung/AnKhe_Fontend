@@ -1,0 +1,72 @@
+<div class="header-top bg-tgdd">
+  <div class="container d-flex align-items-center justify-content-between py-2">
+    <div class="d-flex align-items-center flex-grow-1">
+      <a class="navbar-brand fw-bold me-4" routerLink="/" style="font-size: 24px; color: #000;">
+        <span class="text-tgdd-blue">An Khê</span> <span class="text-dark">Computer</span>
+      </a>
+      
+      <div class="search-box flex-grow-1 mx-4">
+        <div class="input-group">
+          <input type="text" class="form-control border-0" placeholder="Bạn tìm gì..." aria-label="Search">
+          <button class="btn btn-white bg-white border-0" type="button">
+            <i class="bi bi-search text-muted"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center header-icons">
+      <a class="nav-link text-dark px-3 text-center" routerLink="/orders">
+        <i class="bi bi-box-seam d-block fs-5"></i>
+        <small>Đơn hàng</small>
+      </a>
+      <a class="nav-link text-dark px-3 text-center position-relative" routerLink="/cart">
+        <i class="bi bi-cart3 d-block fs-5"></i>
+        <span class="position-absolute top-0 start-50 badge rounded-pill bg-danger" *ngIf="cartService.getCartCount() > 0">
+          {{cartService.getCartCount()}}
+        </span>
+        <small>Giỏ hàng</small>
+      </a>
+      <ng-container *ngIf="!authService.isLoggedIn()">
+        <a class="nav-link text-dark ps-3 text-center" routerLink="/login">
+          <i class="bi bi-person d-block fs-5"></i>
+          <small>Đăng nhập</small>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="authService.isLoggedIn()">
+        <a class="nav-link text-dark px-3 text-center" *ngIf="authService.isAdmin()" routerLink="/admin">
+          <i class="bi bi-shield-lock d-block fs-5"></i>
+          <small>Quản trị</small>
+        </a>
+        <div class="nav-link text-dark ps-3 text-center" style="cursor: pointer;" (click)="logout()">
+          <i class="bi bi-box-arrow-right d-block fs-5"></i>
+          <small>Đăng xuất ({{authService.currentUserValue.username}})</small>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-0">
+  <div class="container">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 text-white" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="bi bi-house-door me-1"></i> Trang chủ
+          </a>
+        </li>
+        <li class="nav-item" *ngFor="let cat of categories">
+          <a class="nav-link px-3 py-2 text-white" [routerLink]="['/products/category', cat.id]" routerLinkActive="active">
+            <i class="bi me-1" [ngClass]="getCategoryIcon(cat.name)"></i> {{cat.name}}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 text-white" routerLink="/tin-tuc" routerLinkActive="active">
+            <i class="bi bi-newspaper me-1"></i> Tin công nghệ
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

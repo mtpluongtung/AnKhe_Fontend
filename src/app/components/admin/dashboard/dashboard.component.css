@@ -1,0 +1,19 @@
+.card {
+  transition: transform 0.2s;
+}
+
+.table th {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.form-select-sm {
+  width: auto;
+}

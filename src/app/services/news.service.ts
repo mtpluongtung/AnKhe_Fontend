@@ -60,6 +60,6 @@ export class NewsService {
 
   getNewsCategories(): Observable<NewsCategory[]> {
     // If NewsCategories controller doesn't exist, we might need to use GenericRepository directly or create it
-    return this.http.get<NewsCategory[]>(`https://localhost:7141/api/News/categories`); 
+    return this.http.get<NewsCategory[]>(`http://localhost:5228/api/News/categories`); 
   }
 }

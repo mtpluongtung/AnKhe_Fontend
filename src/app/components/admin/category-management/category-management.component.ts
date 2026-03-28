@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { CategoryService, Category } from '../../../services/category.service';
+import { PagedResult } from '../../../services/product.service';
 import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-category-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './category-management.component.html',
   styleUrl: './category-management.component.css'
 })
@@ -16,6 +18,12 @@ export class CategoryManagementComponent implements OnInit {
   loading = true;
   showModal = false;
   isEditMode = false;
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  searchTerm = '';
 
   currentCategory: any = {
     id: 0,
@@ -32,17 +40,29 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
+    this.loading = true;
+    this.categoryService.getCategories(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+      next: (result: PagedResult<Category>) => {
+        console.log('Categories loaded:', result);
+        this.categories = result.data;
+        this.totalItems = result.totalCount;
         this.loading = false;
-        this.toastService.info('Đã tải ' + data.length + ' danh mục từ hệ thống');
       },
       error: (err) => {
         this.loading = false;
         this.toastService.error('Không thể tải danh mục: ' + (err.error?.message || err.message));
       }
     });
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadCategories();
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadCategories();
   }
 
   openAddModal() {
@@ -84,7 +104,7 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   deleteCategory(id: number) {
-    if (confirm('Bạn có chắc chắn muốn xóa danh mục này? Hệ thống có thể bị ảnh hưởng nếu sản phẩm vẫn còn thuộc danh mục này.')) {
+    if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
       this.categoryService.deleteCategory(id).subscribe({
         next: () => {
           this.loadCategories();

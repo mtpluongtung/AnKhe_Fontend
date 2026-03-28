@@ -29,8 +29,10 @@ export class NewsService {
 
   constructor(private http: HttpClient) { }
 
-  getNews(pageIndex: number = 1, pageSize: number = 10): Observable<PagedResult<News>> {
-    return this.http.get<PagedResult<News>>(`${this.apiUrl}?pageIndex=${pageIndex}&pageSize=${pageSize}`);
+  getNews(pageIndex: number = 1, pageSize: number = 10, searchTerm?: string): Observable<PagedResult<News>> {
+    let url = `${this.apiUrl}?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    if (searchTerm) url += `&searchTerm=${searchTerm}`;
+    return this.http.get<PagedResult<News>>(url);
   }
 
   getSingleNews(id: number): Observable<News> {

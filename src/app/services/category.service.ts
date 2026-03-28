@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PagedResult } from './product.service';
 
 export interface Category {
   id: number;
@@ -15,8 +16,10 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+  getCategories(pageIndex: number = 1, pageSize: number = 10, searchTerm?: string): Observable<PagedResult<Category>> {
+    let url = `${this.apiUrl}?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    if (searchTerm) url += `&searchTerm=${searchTerm}`;
+    return this.http.get<PagedResult<Category>>(url);
   }
 
   addCategory(category: any): Observable<any> {

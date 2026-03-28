@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { CategoryService, Category } from '../../services/category.service';
-import { OnInit } from '@angular/core';
+import { PagedResult } from '../../services/product.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,8 +23,12 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categoryService.getCategories().subscribe(data => {
-      this.categories = data;
+    this.categoryService.getCategories(1, 100).subscribe({
+      next: (result: PagedResult<Category>) => {
+        console.log('Navbar categories loaded:', result);
+        this.categories = result.data;
+      },
+      error: (err) => console.error('Error loading navbar categories', err)
     });
   }
 

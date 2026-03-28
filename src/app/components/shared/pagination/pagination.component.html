@@ -1,0 +1,38 @@
+<nav *ngIf="totalPages > 1" aria-label="Page navigation" class="pagination-container d-flex flex-column flex-md-row align-items-center justify-content-between">
+  
+  <div class="pagination-info mb-2 mb-md-0 order-2 order-md-1">
+    <span class="badge bg-light text-dark border py-2 px-3 rounded-pill fw-normal">
+      Trang <strong class="text-warning">{{currentPage}}</strong> / {{totalPages}} 
+      <span class="mx-2 text-muted">|</span> 
+      Tổng <strong class="text-dark">{{totalItems}}</strong> mục
+    </span>
+  </div>
+
+  <ul class="pagination pagination-modern mb-0 order-1 order-md-2">
+    <li class="page-item first-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(1)" title="Trang đầu">
+        <i class="bi bi-chevron-double-left"></i>
+      </a>
+    </li>
+    <li class="page-item prev-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage - 1)" title="Trang trước">
+        <i class="bi bi-chevron-left"></i>
+      </a>
+    </li>
+    
+    <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(page)">{{page}}</a>
+    </li>
+    
+    <li class="page-item next-item" [class.disabled]="currentPage === totalPages">
+      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(currentPage + 1)" title="Trang sau">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </li>
+    <li class="page-item last-item" [class.disabled]="currentPage === totalPages">
+      <a class="page-link" href="javascript:void(0)" (click)="onPageChange(totalPages)" title="Trang cuối">
+        <i class="bi bi-chevron-double-right"></i>
+      </a>
+    </li>
+  </ul>
+</nav>

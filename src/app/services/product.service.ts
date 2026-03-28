@@ -31,8 +31,22 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(pageIndex: number = 1, pageSize: number = 10): Observable<PagedResult<Product>> {
-    return this.http.get<PagedResult<Product>>(`${this.apiUrl}?pageIndex=${pageIndex}&pageSize=${pageSize}`);
+  getProducts(
+    pageIndex: number = 1, 
+    pageSize: number = 10, 
+    categoryId?: number, 
+    minPrice?: number, 
+    maxPrice?: number, 
+    sort?: string,
+    searchTerm?: string
+  ): Observable<PagedResult<Product>> {
+    let url = `${this.apiUrl}?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    if (categoryId) url += `&categoryId=${categoryId}`;
+    if (minPrice) url += `&minPrice=${minPrice}`;
+    if (maxPrice) url += `&maxPrice=${maxPrice}`;
+    if (sort) url += `&sort=${sort}`;
+    if (searchTerm) url += `&searchTerm=${searchTerm}`;
+    return this.http.get<PagedResult<Product>>(url);
   }
 
   getHotProducts(): Observable<Product[]> {

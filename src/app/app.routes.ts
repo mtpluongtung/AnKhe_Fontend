@@ -12,6 +12,7 @@ import { CategoryManagementComponent } from './components/admin/category-managem
 import { NewsManagementComponent } from './components/admin/news-management/news-management.component';
 import { BannerManagementComponent } from './components/admin/banner-management/banner-management.component';
 import { OrderManagementComponent } from './components/admin/order-management/order-management.component';
+import { UserManagementComponent } from './components/admin/user-management/user-management.component';
 import { NewsListComponent } from './components/news-list/news-list.component';
 import { NewsDetailComponent } from './components/news-detail/news-detail.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
@@ -42,7 +43,8 @@ export const routes: Routes = [
             { path: 'categories', component: CategoryManagementComponent },
             { path: 'news', component: NewsManagementComponent },
             { path: 'orders', component: OrderManagementComponent },
-            { path: 'banners', component: BannerManagementComponent }
+            { path: 'banners', component: BannerManagementComponent },
+            { path: 'users', component: UserManagementComponent }
         ]
     }
 ];

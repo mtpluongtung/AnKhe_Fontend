@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { OrderService } from '../../../services/order.service';
 import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-order-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './order-management.component.html',
   styleUrl: './order-management.component.css'
 })
@@ -17,6 +18,12 @@ export class OrderManagementComponent implements OnInit {
   showCancelModal = false;
   selectedOrder: any = null;
   cancelReason = '';
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  searchTerm = '';
 
   constructor(
     private orderService: OrderService,
@@ -29,13 +36,24 @@ export class OrderManagementComponent implements OnInit {
 
   loadOrders() {
     this.loading = true;
-    this.orderService.getUserOrders().subscribe({
-      next: (data) => {
-        this.orders = data;
+    this.orderService.getUserOrders(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+      next: (result) => {
+        this.orders = result.data;
+        this.totalItems = result.totalCount;
         this.loading = false;
       },
       error: () => this.loading = false
     });
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadOrders();
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadOrders();
   }
 
   updateStatus(order: any, status: string) {

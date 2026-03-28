@@ -1,3 +1,41 @@
+<!-- Filter Bar -->
+<div class="filter-bar bg-white p-3 rounded shadow-sm mb-4 border">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label small fw-bold text-muted">Khoảng giá (Min)</label>
+      <div class="input-group input-group-sm">
+        <input type="number" class="form-control border-end-0" placeholder="Từ" [(ngModel)]="minPrice">
+        <span class="input-group-text bg-white border-start-0 text-muted">₫</span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label small fw-bold text-muted">Khoảng giá (Max)</label>
+      <div class="input-group input-group-sm">
+        <input type="number" class="form-control border-end-0" placeholder="Đến" [(ngModel)]="maxPrice">
+        <span class="input-group-text bg-white border-start-0 text-muted">₫</span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label small fw-bold text-muted">Sắp xếp theo</label>
+      <select class="form-select form-select-sm" [(ngModel)]="sortBy" (change)="applyFilters()">
+        <option value="newest">Mới nhất</option>
+        <option value="priceAsc">Giá: Thấp đến Cao</option>
+        <option value="priceDesc">Giá: Cao đến Thấp</option>
+        <option value="nameAsc">Tên: A-Z</option>
+        <option value="nameDesc">Tên: Z-A</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+      <button class="btn btn-primary btn-sm flex-grow-1 fw-medium" (click)="applyFilters()">
+        <i class="bi bi-filter me-1"></i> Áp dụng
+      </button>
+      <button class="btn btn-light btn-sm border" (click)="resetFilters()" title="Đặt lại">
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5">
   <div class="col" *ngFor="let product of products">
     <div class="card h-100 product-card border-0">

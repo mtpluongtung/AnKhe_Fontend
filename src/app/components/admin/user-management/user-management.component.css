@@ -1,0 +1,55 @@
+.user-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-size: 0.75rem;
+}
+
+.badge {
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.bg-danger-subtle {
+  background-color: #ffeef0 !important;
+}
+
+.bg-primary-subtle {
+  background-color: #eef2ff !important;
+}
+
+.btn-sm {
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.btn-outline-danger:hover {
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+}
+
+.avatar {
+  background-color: #f8f9fc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(78, 115, 223, 0.02);
+}

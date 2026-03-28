@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductService, Product } from '../../../services/product.service';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
+import { ProductService, Product, PagedResult } from '../../../services/product.service';
 import { CategoryService, Category } from '../../../services/category.service';
 import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
   templateUrl: './product-management.component.html'
 })
 export class ProductManagementComponent implements OnInit {
@@ -18,6 +19,12 @@ export class ProductManagementComponent implements OnInit {
   loading = true;
   showModal = false;
   isEditMode = false;
+  
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  searchTerm = '';
 
   currentProduct: any = {
     id: 0,
@@ -42,19 +49,31 @@ export class ProductManagementComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getProducts(1, 100).subscribe({
+    this.loading = true;
+    this.productService.getProducts(this.currentPage, this.pageSize, undefined, undefined, undefined, undefined, this.searchTerm).subscribe({
       next: (result) => {
         this.products = result.data;
+        this.totalItems = result.totalCount;
         this.loading = false;
       },
       error: () => this.loading = false
     });
   }
 
+  onSearch() {
+    this.currentPage = 1;
+    this.loadProducts();
+  }
+
   loadCategories() {
-    this.categoryService.getCategories().subscribe(data => {
-      this.categories = data;
+    this.categoryService.getCategories(1, 100).subscribe((result: PagedResult<Category>) => {
+      this.categories = result.data;
     });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadProducts();
   }
 
   openAddModal() {

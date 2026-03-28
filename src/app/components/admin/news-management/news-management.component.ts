@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastService } from '../../../services/toast.service';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { NewsService, News } from '../../../services/news.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-news-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './news-management.component.html'
 })
 export class NewsManagementComponent implements OnInit {
@@ -15,6 +16,12 @@ export class NewsManagementComponent implements OnInit {
   loading = true;
   showModal = false;
   isEditMode = false;
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  searchTerm = '';
 
   currentNews: any = {
     id: 0,
@@ -36,13 +43,24 @@ export class NewsManagementComponent implements OnInit {
 
   loadNews() {
     this.loading = true;
-    this.newsService.getNews(1, 100).subscribe({
+    this.newsService.getNews(this.currentPage, this.pageSize, this.searchTerm).subscribe({
       next: (result) => {
         this.newsList = result.data;
+        this.totalItems = result.totalCount;
         this.loading = false;
       },
       error: () => this.loading = false
     });
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadNews();
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadNews();
   }
 
   openAddModal() {

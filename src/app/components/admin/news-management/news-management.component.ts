@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../../services/toast.service';
-import { NewsService, News, NewsCategory } from '../../../services/news.service';
+import { NewsService, News } from '../../../services/news.service';
 
 @Component({
   selector: 'app-news-management',
@@ -12,7 +12,6 @@ import { NewsService, News, NewsCategory } from '../../../services/news.service'
 })
 export class NewsManagementComponent implements OnInit {
   newsList: News[] = [];
-  categories: NewsCategory[] = [];
   loading = true;
   showModal = false;
   isEditMode = false;
@@ -23,7 +22,6 @@ export class NewsManagementComponent implements OnInit {
     description: '',
     content: '',
     imageUrl: '',
-    categoryId: 0,
     isHot: false
   };
 
@@ -34,7 +32,6 @@ export class NewsManagementComponent implements OnInit {
 
   ngOnInit() {
     this.loadNews();
-    this.loadCategories();
   }
 
   loadNews() {
@@ -48,17 +45,6 @@ export class NewsManagementComponent implements OnInit {
     });
   }
 
-  loadCategories() {
-    this.newsService.getNewsCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
-        if (this.categories.length > 0 && this.currentNews.categoryId === 0) {
-          this.currentNews.categoryId = this.categories[0].id;
-        }
-      }
-    });
-  }
-
   openAddModal() {
     this.isEditMode = false;
     this.currentNews = {
@@ -67,7 +53,6 @@ export class NewsManagementComponent implements OnInit {
       description: '',
       content: '',
       imageUrl: '',
-      categoryId: this.categories.length > 0 ? this.categories[0].id : 0,
       isHot: false
     };
     this.showModal = true;

@@ -2,11 +2,11 @@
   <div class="col" *ngFor="let product of products">
     <div class="card h-100 product-card border-0">
       <div class="installment-label" *ngIf="product.isHot">Trả góp 0%</div>
-      <div class="card-img-container p-3">
+      <div class="card-img-container p-3" [routerLink]="['/products', product.id]" style="cursor: pointer;">
         <img [src]="product.imageUrl || 'assets/images/default-product.png'" class="card-img-top" [alt]="product.name">
       </div>
       <div class="card-body pt-0">
-        <h5 class="product-title mb-2">{{ product.name }}</h5>
+        <h5 class="product-title mb-2" [routerLink]="['/products', product.id]" style="cursor: pointer;">{{ product.name }}</h5>
         
         <div class="price-box mb-2">
           <span class="curr-price">{{ product.price | number:'1.0-2' }}₫</span>

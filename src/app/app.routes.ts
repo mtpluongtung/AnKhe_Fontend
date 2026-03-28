@@ -14,11 +14,13 @@ import { BannerManagementComponent } from './components/admin/banner-management/
 import { OrderManagementComponent } from './components/admin/order-management/order-management.component';
 import { NewsListComponent } from './components/news-list/news-list.component';
 import { NewsDetailComponent } from './components/news-detail/news-detail.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'products', component: ProductListComponent },
+    { path: 'products/:id', component: ProductDetailComponent },
     { path: 'products/category/:id', component: ProductListComponent },
     { path: 'laptop', component: ProductListComponent },
     { path: 'pc', component: ProductListComponent },

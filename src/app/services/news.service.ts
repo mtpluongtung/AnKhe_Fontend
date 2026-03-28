@@ -9,16 +9,8 @@ export interface News {
   description: string;
   content: string;
   createdDate: Date;
-  categoryId: number;
-  category?: any;
   viewsCount: number;
   isHot: boolean;
-}
-
-export interface NewsCategory {
-  id: number;
-  name: string;
-  orderBy: number;
 }
 
 export interface PagedResult<T> {
@@ -34,7 +26,6 @@ export interface PagedResult<T> {
 })
 export class NewsService {
   private apiUrl = 'http://localhost:5228/api/News';
-  private categoryUrl = 'http://localhost:5228/api/NewsCategories'; // Placeholder, might need to create this controller if not exists
 
   constructor(private http: HttpClient) { }
 
@@ -56,10 +47,5 @@ export class NewsService {
 
   deleteNews(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
-  }
-
-  getNewsCategories(): Observable<NewsCategory[]> {
-    // If NewsCategories controller doesn't exist, we might need to use GenericRepository directly or create it
-    return this.http.get<NewsCategory[]>(`http://localhost:5228/api/News/categories`); 
   }
 }

@@ -12,7 +12,6 @@
           <tr>
             <th class="ps-4">Tiêu đề</th>
             <th>Ngày đăng</th>
-            <th>Danh mục</th>
             <th class="text-center">Thao tác</th>
           </tr>
         </thead>
@@ -26,17 +25,20 @@
               </div>
             </td>
             <td>{{item.createdDate | date:'dd/MM/yyyy'}}</td>
-            <td>{{item.category?.name || 'Chưa phân loại'}}</td>
             <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary border-0 me-2" (click)="openEditModal(item)"><i class="bi bi-pencil"></i></button>
-              <button class="btn btn-sm btn-outline-danger border-0" (click)="deleteNews(item.id)"><i class="bi bi-trash"></i></button>
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditModal(item)">
+                <i class="bi bi-pencil me-1"></i> Sửa
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteNews(item.id)">
+                <i class="bi bi-trash me-1"></i> Xóa
+              </button>
             </td>
           </tr>
           <tr *ngIf="newsList.length === 0 && !loading">
-            <td colspan="4" class="text-center py-5 text-muted">Chưa có tin tức nào.</td>
+            <td colspan="3" class="text-center py-5 text-muted">Chưa có tin tức nào.</td>
           </tr>
           <tr *ngIf="loading">
-            <td colspan="4" class="text-center py-5">
+            <td colspan="3" class="text-center py-5">
               <div class="spinner-border text-warning" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
@@ -81,13 +83,7 @@
             </div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label fw-bold small text-uppercase">Danh mục</label>
-              <select class="form-select" name="categoryId" [(ngModel)]="currentNews.categoryId" required>
-                <option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}</option>
-              </select>
-            </div>
-            <div class="col-md-6 d-flex align-items-end">
+            <div class="col-md-12 d-flex align-items-center">
               <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" name="isHot" id="isHot" [(ngModel)]="currentNews.isHot">
                 <label class="form-check-label fw-bold" for="isHot">Tin nổi bật (Hot)</label>
